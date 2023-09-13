@@ -1,0 +1,68 @@
+<!--
+The request to this GraphQL server provided the header "Accept: text/html"
+and as a result has been presented GraphiQL - an in-browser IDE for
+exploring GraphQL.
+If you wish to receive JSON, provide the header "Accept: application/json" or
+add "&raw" to the end of the URL within a browser.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from explorer.alph.network/graphiql by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 13 Sep 2023 18:10:57 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>GraphiQL Workspace</title>
+
+  <link rel="stylesheet" media="screen" href="../cdn.jsdelivr.net/npm/bootstrap%403.3.7/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" media="screen" href="../cdn.jsdelivr.net/npm/graphiql%400.11.10/graphiql.css">
+  <link rel="stylesheet" media="screen" href="../cdn.jsdelivr.net/npm/graphiql-workspace%401.1.4/graphiql-workspace.css">
+</head>
+<body>
+  <div id="root" class="graphiql-workspace"></div>
+  <script src="../cdn.jsdelivr.net/npm/react%4015.6.1/dist/react.min.js"></script>
+  <script src="../cdn.jsdelivr.net/npm/react-dom%4015.6.1/dist/react-dom.min.js"></script>
+  <script src="../cdn.jsdelivr.net/npm/graphiql-workspace%401.1.4/graphiql-workspace.min.js"></script>
+  <script src="../cdn.jsdelivr.net/npm/%40absinthe/socket-graphiql%400.1.1/compat/umd/index.js"></script>
+  <script type="text/javascript">
+    function absintheSubscriptionsClientBuilder(url, connectionParams) {
+
+      const urlObject = new URL(url.html);
+
+      const urlParams = urlObject.search
+                          .slice(1)
+                          .split('&')
+                          .filter(s => s !== '')
+                          .map(p => p.split('='))
+                          .reduce((obj, [key, value]) => {
+                            obj[key] = value;
+                            return obj;
+                          }, {});
+
+      return new AbsintheSocketGraphiql.SubscriptionsClient(`${urlObject.origin}${urlObject.pathname}`,
+                                                            {params: Object.assign(urlParams, connectionParams)});
+    }
+
+    var protocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+    var config = new graphiqlWorkspace.AppConfig("graphiql", {
+      defaultUrl: window.location.origin + window.location.pathname,
+      
+        defaultWebsocketUrl: `${protocol}//${window.location.host}/socket`,
+        subscriptionsClientBuilder: absintheSubscriptionsClientBuilder,
+      
+      defaultQuery: '{transaction(hash: "0x69e3923eef50eada197c3336d546936d0c994211492c9f947a24c02827568f9f") { hash, blockNumber, value, gasUsed }}',
+      defaultVariables: '',
+      defaultHeaders: []
+    });
+
+    ReactDOM.render(
+      React.createElement(graphiqlWorkspace.GraphiQLWorkspace, {config: config}),
+      document.getElementById("root")
+    );
+  </script>
+</body>
+
+<!-- Mirrored from explorer.alph.network/graphiql by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 13 Sep 2023 18:11:05 GMT -->
+</html>
